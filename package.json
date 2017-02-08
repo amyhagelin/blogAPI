@@ -4,7 +4,7 @@
   "description": "Blog API challenge for Thinkful server-side curriculum",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "express": "^4.14.1",
+    "mocha": "^3.2.0",
     "morgan": "^1.8.0",
     "uuid": "^3.0.1"
   }
