@@ -8,13 +8,26 @@ const {BlogPosts} = require('./models');
 
 // we're going to add some items to BlogPosts
 // so there's some data to look at
-BlogPosts.create('The Fox Title', 'The quick brown fox jumped over the lazy dog', 'by Amy')
-BlogPosts.create('Lorem Ipsum Title', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'by Ted');
-BlogPosts.create('Third Title', 'One two three four five six.', 'by Susana');
+
+// 'The Fox Title', 'The quick brown fox jumped over the lazy dog', 'by Amy'
+BlogPosts.create({
+  title: 'The Fox Title',
+  content: 'The quick brown fox jumped over the lazy dog',
+  author: {
+    firstName: 'Amy',
+    lastName: 'Hagelin'
+  }
+}).then(document => {
+  console.log('blog post created', document)
+}).catch(err => {
+  console.error(err)
+})
+// BlogPosts.create('Lorem Ipsum Title', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'by Ted');
+// BlogPosts.create('Third Title', 'One two three four five six.', 'by Susana');
 
 // when the root of this router is called with GET, return
 // all current BlogPosts items
-router.get('/', (req, res) => {
+router.get('/posts', (req, res) => {
   res.json(BlogPosts.get());
 });
 
@@ -22,7 +35,7 @@ router.get('/', (req, res) => {
 // got required fields ('name' and 'checked'). if not,
 // log an error and return a 400 status code. if okay,
 // add new item to BlogPosts and return it with a 201.
-router.post('/', jsonParser, (req, res) => {
+router.post('/posts', jsonParser, (req, res) => {
   // ensure `name` and `budget` are in request body
   console.log(req.body)
   const requiredFields = ['title', 'content', 'author'];
@@ -41,7 +54,7 @@ router.post('/', jsonParser, (req, res) => {
 
 // when DELETE request comes in with an id in path,
 // try to delete that item from ShoppingList.
-router.delete('/:id', (req, res) => {
+router.delete('/posts/:id', (req, res) => {
   BlogPosts.delete(req.params.id);
   console.log(`Deleted blog post \`${req.params.ID}\``);
   res.status(204).end();
@@ -52,7 +65,7 @@ router.delete('/:id', (req, res) => {
 // item id in updated item object match. if problems with any
 // of that, log error and send back status code 400. otherwise
 // call `BlogPosts.update` with updated item.
-router.put('/:id', jsonParser, (req, res) => {
+router.put('/posts/:id', jsonParser, (req, res) => {
   const requiredFields = ['title', 'content', 'author'];
   for (let i=0; i<requiredFields.length; i++) {
     const field = requiredFields[i];
